@@ -1,26 +1,269 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* Core B&W Palette and Alien Colors */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    /* Black & White Shades */
+    --pure-black: #000000;
+    --void-black: #080808;
+    --shadow-black: #141414;
+    --carbon-gray: #1a1a1a;
+    --steel-gray: #2a2a2a;
+    --smoke-gray: #3a3a3a;
+    --ash-gray: #666666;
+    --frost-gray: #999999;
+    --mist-gray: #cccccc;
+    --bone-white: #e8e8e8;
+    --ghost-white: #f0f0f0;
+    --pure-white: #ffffff;
+
+    /* Neo-Futuristic Alien Accent - Thick Blood Red with Grunge */
+    --alien-primary: #cc0000;   /* Deep blood red - main alien color */
+    --alien-glow: #ff1a1a;      /* Brighter red glow */
+    --alien-dark: #800000;      /* Dark maroon - dried blood */
+    --alien-toxic: #990000;     /* Muted blood red */
+    --alien-shadow: #4d0000;    /* Very dark blood red */
+    --alien-rust: #5c1a1a;      /* Grungy oxidized blood red */
+
+    /* Alternative Alien Accent - Electric Toxic Green */
+    --cyber-green: #39ff14;     /* Electric lime green */
+    --cyber-glow: #2bff00;      /* Green glow */
+    --cyber-dark: #1a8000;      /* Dark green */
+    --cyber-rust: #2d5c1a;      /* Grungy dark green */
+
+    /* General Design Tokens */
+    --radius: 0.625rem;
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+
+    /* Font variable */
+    --font-orbitron: 'Orbitron', sans-serif;
 }
 
+/* Theme variables for inline usage */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --font-sans: var(--font-orbitron);
+
+    /* Extended Alien Colors */
+    --color-alien-primary: var(--alien-primary);
+    --color-alien-glow: var(--alien-glow);
+    --color-alien-dark: var(--alien-dark);
+    --color-alien-toxic: var(--alien-toxic);
+    --color-alien-shadow: var(--alien-shadow);
+    --color-alien-rust: var(--alien-rust);
+
+    --color-cyber-green: var(--cyber-green);
+    --color-cyber-glow: var(--cyber-glow);
+    --color-cyber-dark: var(--cyber-dark);
+    --color-cyber-rust: var(--cyber-rust);
+
+    /* Grayscale */
+    --color-pure-black: var(--pure-black);
+    --color-void-black: var(--void-black);
+    --color-shadow-black: var(--shadow-black);
+    --color-carbon-gray: var(--carbon-gray);
+    --color-steel-gray: var(--steel-gray);
+    --color-smoke-gray: var(--smoke-gray);
+    --color-ash-gray: var(--ash-gray);
+    --color-frost-gray: var(--frost-gray);
+    --color-mist-gray: var(--mist-gray);
+    --color-bone-white: var(--bone-white);
+    --color-ghost-white: var(--ghost-white);
+    --color-pure-white: var(--pure-white);
+
+    /* Sidebar */
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+
+    /* Chart */
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+
+    /* UI */
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Light mode adjustments */
+@media (prefers-color-scheme: light) {
+    :root {
+        --background: #f5f5f5;
+        --foreground: #0c0c0c;
+
+        /* Light mode alien colors */
+        --alien-primary: #990000;
+        --alien-dark: #800000;
+        --alien-shadow: #4d0000;
+    }
 }
 
+/* Text and border styles using alien colors */
+.alien-glow {
+    color: var(--alien-primary);
+    text-shadow: 0 0 10px var(--alien-glow), 0 0 20px var(--alien-glow);
+}
+
+.alien-border {
+    border: 1px solid var(--alien-primary);
+    box-shadow: 0 0 5px var(--alien-glow);
+}
+
+.cyber-glow {
+    color: var(--cyber-green);
+    text-shadow: 0 0 10px var(--cyber-glow), 0 0 20px var(--cyber-glow);
+}
+
+/* Backgrounds */
+.grunge-surface {
+    background: linear-gradient(
+            135deg,
+            var(--carbon-gray) 0%,
+            var(--shadow-black) 50%,
+            var(--void-black) 100%
+    );
+}
+
+/* Neo-futuristic gradients */
+.alien-gradient {
+    background: linear-gradient(
+            135deg,
+            var(--alien-shadow) 0%,
+            var(--alien-dark) 30%,
+            var(--alien-primary) 100%
+    );
+}
+
+.cyber-gradient {
+    background: linear-gradient(
+            135deg,
+            var(--cyber-rust) 0%,
+            var(--cyber-dark) 30%,
+            var(--cyber-green) 100%
+    );
+}
+
+/* Dark mode overrides */
+.dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.985 0 0);
+    --primary-foreground: oklch(0.145 0 0);
+    --secondary: oklch(0.205 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.145 0 0);
+    --muted-foreground: oklch(0.922 0 0);
+    --accent: oklch(0.205 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.953 0.245 27.325);
+    --border: oklch(0.145 0 0);
+    --input: oklch(0.145 0 0);
+    --ring: oklch(0.855 0 0);
+}
+
+/* Body styling */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-orbitron), monospace, monospace;
+    font-size: 20px;
+    height: 100vh;
+    background-color: var(--background);
+    color: var(--foreground);
+    margin: 0;
+    padding: 0;
+}
+
+/* Text selection */
+::selection {
+    background: var(--alien-primary);
+    color: var(--pure-white);
+}
+
+/* Scrollbar styling (optional) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--shadow-black);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--alien-primary);
+    border-radius: 4px;
+}
+
+/* Example utility classes (can be expanded for Tailwind or custom usage) */
+.text-alien-primary {
+    color: var(--alien-primary);
+}
+
+.bg-alien-primary {
+    background-color: var(--alien-primary);
+}
+
+.border-alien-primary {
+    border-color: var(--alien-primary);
 }
