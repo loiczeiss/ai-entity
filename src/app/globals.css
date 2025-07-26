@@ -267,3 +267,19 @@ body {
 .border-alien-primary {
     border-color: var(--alien-primary);
 }
+
+.glitch {
+    position: relative;
+    color: white;
+    animation: glitch-flicker 2s infinite;
+}
+
+@keyframes glitch-flicker {
+    0% { opacity: 1; }
+    5% { opacity: 0.7; transform: translateX(-0.5px); }
+    10% { opacity: 1; transform: translateX(0.5px); }
+    15% { opacity: 0.9; transform: translateX(-1px); }
+    20% { opacity: 1; transform: translateX(0); }
+    100% { opacity: 1; }
+}
+
