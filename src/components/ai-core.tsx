@@ -1,7 +1,7 @@
 'use client'
-import {motion} from "motion/react"
+import { motion } from "motion/react"
 import Image from "next/image"
-import aiCoreImage from '@public/core-animation-images/light-idea-idle-state.png'
+import aiCoreV202 from '@public/core-animation-images/ai-core-v2-2.png'
 
 interface AicoreProps {
     isRecording: boolean
@@ -10,29 +10,52 @@ interface AicoreProps {
 export function AiCore(props: AicoreProps) {
     return (
         <motion.div
-            initial={{ opacity: 0, rotate: 0 }}
-         animate={
+            initial={{ opacity: 0, filter: 'blur(10px)' }}
+            animate={
                 props.isRecording
                     ? {
-                        rotate: 360,
+                        scale: [1, 1.03, 0.97, 1.02, 0.98, 1],
+                        filter: ['blur(0px)', 'blur(3px)', 'blur(0px)', 'blur(2px)', 'blur(0px)'],
                         opacity: 1,
                         transition: {
-                            rotate: {
-                                duration: 40,
-                                ease: "linear",
+                            scale: {
+                                duration: 3,
+                                ease: 'easeInOut',
                                 repeat: Infinity,
-                                repeatType: "loop",
+                                repeatType: 'loop',
                             },
-                            opacity: {
-                                duration: 10,
+                            filter: {
+                                duration: 2,
+                                ease: 'easeInOut',
+                                repeat: Infinity,
+                                repeatType: 'loop',
                             },
                         },
                     }
-                    : { opacity: 1, rotate: 0 }
+                    : {
+                        scale: [1],
+                        filter: ['blur(0px)'],
+                        opacity: 1,
+                        transition: {
+                            scale: {
+                                duration: 0.6,
+                                ease: 'easeOut',
+                            },
+                            filter: {
+                                duration: 2,
+                                ease: 'easeOut',
+                                delay: 0.5,
+                            },
+                            opacity: {
+                                duration: 1.5,
+                                ease: 'easeOut',
+                            },
+                        },
+                    }
             }
-            className="bg-transparent py-0 relative h-64 w-64 sm:w-96 sm:h-96"
+            className=" bg-transparent py-0 relative h-64 w-64 sm:w-96 sm:h-96 lg:h-[1000px] lg:w-[1000px] "
         >
-            <Image src={aiCoreImage.src} alt="AI Core" fill/>
+            <Image src={aiCoreV202.src} alt="AI Core" fill className="object-contain" />
         </motion.div>
     )
 }

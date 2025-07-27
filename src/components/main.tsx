@@ -127,11 +127,24 @@ export function Main() {
     console.log(isRecording, ' isRecording')
     console.log(isSpeaking, ' isSpeaking')
 
-    return (<div className={'py-8 sm:py-16 8 flex flex-col justify-between items-center bg-pure-black h-full'}>
-        {!isSpeaking && <Header/>}
-        {!isSpeaking && <AiCore isRecording={isRecording}/>}
-        {isSpeaking && !isRecording && <AiResponding/>}
-        <ButtonCommands stopAll={stopAll} isRecording={isRecording} stopRecording={stopRecording}
-                        startRecording={startRecording} />
-    </div>)
+    return (
+        <div className="grid grid-rows-3 grid-cols-1 h-screen bg-pure-black py-8 sm:py-16">
+            <div className="flex justify-center items-center row-start-2 sm:row-start-1 col-start-1">
+                {!isSpeaking && <AiCore isRecording={isRecording} />}
+            </div>
+
+            <div className="flex justify-center items-center row-start-2 sm:row-start-1 col-start-1">
+                {isSpeaking && !isRecording && <AiResponding />}
+            </div>
+
+            <div className="flex justify-center items-end row-start-3 col-start-1">
+                <ButtonCommands
+                    stopAll={stopAll}
+                    isRecording={isRecording}
+                    stopRecording={stopRecording}
+                    startRecording={startRecording}
+                />
+            </div>
+        </div>)
+
 }
