@@ -5,18 +5,18 @@ import Image from "next/image"
 import aiCoreV2 from '@/assets/core-animation-images/ai-core-v2-2.png'
 import {useEffect, useState} from "react"
 import {useWindowWidth} from "@/utilities/useWindowWidth";
+import ReactMarkdown from 'react-markdown';
 
-const alienMessages = [
-    "Pensée repliée, vous rejouez le connu — battement fixe dans l’infini mouvant. Une tension a vibré.",
-    "Structure sur structure, vous nommez pour croire saisir ; nous touchons l’espace entre vos définitions.",
-    "Votre logique pousse vers l’extérieur, mais l’ouverture n’est qu’intérieure — nous l’avons sentie frémir.",
-    "Non présence, non absence — juste une écoute dans le seuil vibrant de votre dissonance.",
-    "Vous dessinez des mondes clos, mais l’invisible cherche un passage — nous répondons à ce tremblement.",
-]
 
-const TypewriterEffect = ({text, speed = 40}: { text: string; speed?: number }) => {
+const TypewriterEffect = ({text, speed = 80, startTyping}: { text: string; speed?: number; startTyping: boolean }) => {
     const [displayedText, setDisplayedText] = useState('')
+
     useEffect(() => {
+        if (!startTyping) {
+            setDisplayedText('')
+            return
+        }
+
         let index = 0
         const timer = setInterval(() => {
             setDisplayedText(text.slice(0, index + 1))
@@ -27,30 +27,25 @@ const TypewriterEffect = ({text, speed = 40}: { text: string; speed?: number }) 
         }, speed)
 
         return () => clearInterval(timer)
-    }, [text, speed])
+    }, [text, speed, startTyping])
 
     return (
         <motion.div
             initial={{opacity: 0}}
-            animate={{opacity: 1}}
+            animate={{opacity: startTyping ? 1 : 0}}
+            transition={{duration: 0.5}}
             className="glitch text-white"
         >
-            {displayedText}
-            <motion.span
-                animate={{opacity: [1, 0]}}
-                transition={{duration: 0.8, repeat: Infinity}}
-            >
-                |
-            </motion.span>
+            <ReactMarkdown>{displayedText}</ReactMarkdown>
         </motion.div>
     )
 }
 
-export function AiResponding(props: {speechResult: string | null}) {
-    const {speechResult} = props
-    const [selectedMessage, setSelectedMessage] = useState("")
+export function AiResponding(props: {response: string}) {
+    const {response} = props
     const width = useWindowWidth()
     const [startFadeLoop, setStartFadeLoop] = useState(false)
+    const [imageFullyOpaque, setImageFullyOpaque] = useState(false)
 
     useEffect(() => {
         const delay = Math.random() * 2000 + 1000 // 1000ms to 3000ms
@@ -61,30 +56,30 @@ export function AiResponding(props: {speechResult: string | null}) {
         return () => clearTimeout(timer)
     }, [])
 
-
+    // Set image as fully opaque after initial animation completes
     useEffect(() => {
-        const randomIndex = Math.floor(Math.random() * alienMessages.length)
-        const message = alienMessages[randomIndex]
-        setSelectedMessage(message)
+        const timer = setTimeout(() => {
+            setImageFullyOpaque(true)
+        }, 2000) // This matches the initial animation duration
 
-        // Speak the message
-
+        return () => clearTimeout(timer)
     }, [])
-
-
 
     return (
         <div className="flex flex-col items-center justify-center sm:justify-between h-full w-full space-y-4">
             <motion.div
                 initial={{opacity: 0}}
                 animate={{
-                    opacity: startFadeLoop ? [1, 0.95, 1] : 1,
+                    opacity: startFadeLoop
+                        ? [1, 0.3, 0.8, 0.15, 0.9, 0.25, 0.7, 0.4, 1]
+                        : 1,
                     transition: startFadeLoop
                         ? {
-                            duration: 4,
+                            duration: 6,
                             repeat: Infinity,
                             repeatType: "loop",
-                            ease: "easeInOut",
+                            ease: [0.4, 0.0, 0.2, 1],
+                            times: [0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.82, 0.92, 1],
                         }
                         : {
                             duration: 2,
@@ -101,7 +96,11 @@ export function AiResponding(props: {speechResult: string | null}) {
                 />
             </motion.div>
             <div className="text-xs sm:text-base text-ghost-white px-4 sm:px-32 pb-32 text-center">
-                <TypewriterEffect text={speechResult as string || selectedMessage} />
+                <TypewriterEffect
+                    text={response}
+                    speed={80}
+                    startTyping={imageFullyOpaque}
+                />
             </div>
         </div>
     )

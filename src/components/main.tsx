@@ -5,14 +5,15 @@ import {AiCore} from "@/components/ai-core";
 import {ButtonCommands} from "@/components/button-commands";
 import {useEffect, useRef, useState} from "react";
 import {AiResponding} from "@/components/ai-responding";
+import {getPerplexityResults} from "@/components/actions/get-perplexity-result";
 
 export type AIState = "idle" | "listening" | "processing" | "speaking";
 
 interface TranscriptionResult {
     transcript: string;
     confidence: number;
-    words?: any[];
-    paragraphs?: any;
+    words?: string[];
+    paragraphs?: string;
 }
 
 export function Main() {
@@ -25,6 +26,7 @@ export function Main() {
     const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
     const [isTranscribing, setIsTranscribing] = useState(false);
     const [transcriptionError, setTranscriptionError] = useState<string | null>(null);
+    const [response, setResponse] = useState<string | null>(null);
 
     // Deepgram recording refs
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -93,8 +95,8 @@ export function Main() {
             }
 
             const result: TranscriptionResult = await response.json();
-
-            console.log('Deepgram transcription result:', result);
+            const responseFromPerplexity = await getPerplexityResults(result.transcript);
+            setResponse(responseFromPerplexity);
             setSpeechResult(result.transcript);
 
             // Continue with your existing flow
@@ -194,30 +196,19 @@ export function Main() {
 
         stopAudio();
     };
-
+    useEffect(() => {
+        console.log(response)
+    }, [response]);
     return (
         <div className="grid grid-rows-3 grid-cols-1 h-screen bg-pure-black py-8 sm:py-16">
-            {/* Error display */}
-            {transcriptionError && (
-                <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded-lg z-50">
-                    {transcriptionError}
-                </div>
-            )}
 
-            {/* Processing indicator */}
-            {isTranscribing && (
-                <div className="fixed top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg z-50 flex items-center gap-2">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                    Transcribing with Deepgram...
-                </div>
-            )}
 
             <div className="flex justify-center items-center row-start-2 col-start-1">
                 {!isSpeaking && <AiCore isRecording={isRecording}/>}
             </div>
 
             <div className="flex justify-center items-center row-start-2 sm:row-span-2 sm:row-start-1 col-start-1">
-                {isSpeaking && !isRecording && <AiResponding speechResult={speechResult}/>}
+                {isSpeaking && !isRecording && <AiResponding response={response as string}/>}
             </div>
 
             <div className="flex justify-center items-end row-start-3 col-start-1">
