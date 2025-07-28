@@ -2,7 +2,7 @@
 
 import {motion} from "framer-motion"
 import Image from "next/image"
-import aiCoreV2 from '@public/core-animation-images/ai-core-v2-2.png'
+import aiCoreV2 from '@/assets/core-animation-images/ai-core-v2-2.png'
 import {useEffect, useState} from "react"
 import {useWindowWidth} from "@/utilities/useWindowWidth";
 
@@ -46,7 +46,8 @@ const TypewriterEffect = ({text, speed = 40}: { text: string; speed?: number }) 
     )
 }
 
-export function AiResponding() {
+export function AiResponding(props: {speechResult: string | null}) {
+    const {speechResult} = props
     const [selectedMessage, setSelectedMessage] = useState("")
     const width = useWindowWidth()
     const [startFadeLoop, setStartFadeLoop] = useState(false)
@@ -67,22 +68,10 @@ export function AiResponding() {
         setSelectedMessage(message)
 
         // Speak the message
-        const utterance = new SpeechSynthesisUtterance(message)
-        utterance.rate = 0.85 // slower, more alien
-        utterance.pitch = 0.4 // deeper tone
-        utterance.volume = 0.9
-        utterance.lang = "fr-FR" // since it's French
 
-        // Optional: pick a specific voice
-        const voices = window.speechSynthesis.getVoices()
-        const deepVoice = voices.find(v => v.lang === 'fr-FR' && v.name.toLowerCase().includes("google") || v.name.toLowerCase().includes("thomas"))
-        if (deepVoice) utterance.voice = deepVoice
-
-        window.speechSynthesis.cancel() // Cancel anything ongoing
-        window.speechSynthesis.speak(utterance)
     }, [])
 
-    console.log(width)
+
 
     return (
         <div className="flex flex-col items-center justify-center sm:justify-between h-full w-full space-y-4">
@@ -112,7 +101,7 @@ export function AiResponding() {
                 />
             </motion.div>
             <div className="text-xs sm:text-base text-ghost-white px-4 sm:px-32 pb-32 text-center">
-                <TypewriterEffect text={selectedMessage}/>
+                <TypewriterEffect text={speechResult as string || selectedMessage} />
             </div>
         </div>
     )
