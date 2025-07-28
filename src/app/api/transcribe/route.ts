@@ -48,6 +48,7 @@ export async function POST(request: NextRequest) {
                 diarize: false, // Disable for better performance
                 paragraphs: false,
                 utterances: false,
+                detect_language: true,
                 // Add these for better transcription
                 redact: false,
 
