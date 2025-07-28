@@ -1,4 +1,3 @@
-import {Button} from "@/components/ui/button";
 import {Mic, MicOff, Pause} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {motion} from "motion/react";

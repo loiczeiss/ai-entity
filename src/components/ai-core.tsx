@@ -1,7 +1,7 @@
 'use client'
 import { motion } from "motion/react"
 import Image from "next/image"
-import aiCoreV202 from '@public/core-animation-images/ai-core-v2-2.png'
+import aiCoreV202 from '@assets/core-animation-images/ai-core-v2-2.png'
 
 interface AicoreProps {
     isRecording: boolean
@@ -53,7 +53,7 @@ export function AiCore(props: AicoreProps) {
                         },
                     }
             }
-            className=" bg-transparent py-0 relative h-64 w-64 sm:w-96 sm:h-96 lg:h-[1000px] lg:w-[1000px] "
+            className=" bg-transparent py-0 relative h-64 w-64 sm:w-96 sm:h-96 lg:h-[400px] lg:w-[400px] "
         >
             <Image src={aiCoreV202.src} alt="AI Core" fill className="object-contain" />
         </motion.div>
