@@ -6,40 +6,10 @@ import aiCoreV2 from '@/assets/core-animation-images/ai-core-v2-2.png'
 import {useEffect, useState} from "react"
 import {useWindowWidth} from "@/utilities/useWindowWidth";
 import ReactMarkdown from 'react-markdown';
+import {useTypewriter} from "@/hooks/use-type-witer";
 
 
-const TypewriterEffect = ({text, speed = 80, startTyping}: { text: string; speed?: number; startTyping: boolean }) => {
-    const [displayedText, setDisplayedText] = useState('')
 
-    useEffect(() => {
-        if (!startTyping) {
-            setDisplayedText('')
-            return
-        }
-
-        let index = 0
-        const timer = setInterval(() => {
-            setDisplayedText(text.slice(0, index + 1))
-            index++
-            if (index >= text.length) {
-                clearInterval(timer)
-            }
-        }, speed)
-
-        return () => clearInterval(timer)
-    }, [text, speed, startTyping])
-
-    return (
-        <motion.div
-            initial={{opacity: 0}}
-            animate={{opacity: startTyping ? 1 : 0}}
-            transition={{duration: 0.5}}
-            className="glitch text-white"
-        >
-            <ReactMarkdown>{displayedText}</ReactMarkdown>
-        </motion.div>
-    )
-}
 
 export function AiResponding(props: {response: string}) {
     const {response} = props
@@ -96,11 +66,7 @@ export function AiResponding(props: {response: string}) {
                 />
             </motion.div>
             <div className="text-xs sm:text-base text-ghost-white px-4 sm:px-32 pb-32 text-center">
-                <TypewriterEffect
-                    text={response}
-                    speed={80}
-                    startTyping={imageFullyOpaque}
-                />
+                {useTypewriter({text: response, speed: 50, startTyping: true})}
             </div>
         </div>
     )

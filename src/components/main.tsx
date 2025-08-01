@@ -6,6 +6,7 @@ import {ButtonCommands} from "@/components/button-commands";
 import {useEffect, useRef, useState} from "react";
 import {AiResponding} from "@/components/ai-responding";
 import {getPerplexityResults} from "@/components/actions/get-perplexity-result";
+import {TextPresentation} from "@/components/text-presentation";
 
 export type AIState = "idle" | "listening" | "processing" | "speaking";
 
@@ -203,8 +204,12 @@ export function Main() {
         <div className="grid grid-rows-3 grid-cols-1 h-screen bg-pure-black py-8 sm:py-16">
 
 
-            <div className="flex justify-center items-center row-start-2 col-start-1">
+            <div className="flex justify-center items-center row-start-1 row-span-1 col-start-1">
                 {!isSpeaking && <AiCore isRecording={isRecording}/>}
+            </div>
+
+            <div className="flex justify-center items-center row-start-2 row-span-1 col-start-1">
+                {!isSpeaking &&   <TextPresentation/>}
             </div>
 
             <div className="flex justify-center items-center row-start-2 sm:row-span-2 sm:row-start-1 col-start-1">
