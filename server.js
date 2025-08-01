@@ -1,5 +1,7 @@
 'use strict';
-Object.defineProperty(exports, '__esModule', { value: true });
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+});
 var https_1 = require('https');
 var fs_1 = require('fs');
 var path_1 = require('path');
@@ -16,7 +18,10 @@ app.prepare().then(function () {
   https_1.default
     .createServer(httpsOptions, function (req, res) {
       var _a;
-      var parsedUrl = (0, url_1.parse)((_a = req.url) !== null && _a !== void 0 ? _a : '/', true);
+      var parsedUrl = (0, url_1.parse)(
+        (_a = req.url) !== null && _a !== void 0 ? _a : '/',
+        true,
+      );
       handle(req, res, parsedUrl);
     })
     .listen(3000, function () {

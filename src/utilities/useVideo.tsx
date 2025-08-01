@@ -1,14 +1,19 @@
-'use client'
+'use client';
 
 interface UseVideoProps {
-    src: string
+  src: string;
 }
 
 export function useVideo(props: UseVideoProps) {
-    const {src} = props;
-    return (
-        <video src={src} autoPlay preload={'auto'}  muted playsInline
-               className="h-full w-full object-cover"></video>)
-
-
+  const { src } = props;
+  return (
+    <video
+      src={src}
+      autoPlay
+      preload={'auto'}
+      muted
+      playsInline
+      className="h-full w-full object-cover"
+    ></video>
+  );
 }

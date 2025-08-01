@@ -1,14 +1,29 @@
 // hooks/useRealtimeTranscription.ts
 import { useEffect, useRef, useState } from 'react';
-import { createClient, LiveTranscriptionEvents } from '@deepgram/sdk';
+import {
+  createClient,
+  LiveTranscriptionEvents,
+  LiveClient,
+  LiveTranscriptionEvent,
+} from '@deepgram/sdk';
+
+// Define the transcript data structure based on Deepgram's API
+interface TranscriptData {
+  channel: {
+    alternatives: Array<{
+      transcript: string;
+    }>;
+  };
+  is_final: boolean;
+}
 
 export const useRealtimeTranscription = () => {
   const [transcript, setTranscript] = useState('');
   const [isConnected, setIsConnected] = useState(false);
   const [isListening, setIsListening] = useState(false);
 
-  const deepgramRef = useRef<any>(null);
-  const connectionRef = useRef<any>(null);
+  const deepgramRef = useRef<ReturnType<typeof createClient> | null>(null);
+  const connectionRef = useRef<LiveClient | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
   const startListening = async () => {
@@ -42,16 +57,20 @@ export const useRealtimeTranscription = () => {
         setIsConnected(true);
       });
 
-      connectionRef.current.on(LiveTranscriptionEvents.Transcript, (data: any) => {
-        const transcript = data.channel.alternatives[0].transcript;
-        if (transcript && transcript.trim() !== '') {
-          if (data.is_final) {
-            setTranscript((prev) => prev + ' ' + transcript);
+      connectionRef.current.on(
+        LiveTranscriptionEvents.Transcript,
+        (data: LiveTranscriptionEvent) => {
+          const transcriptData = data as TranscriptData;
+          const transcript = transcriptData.channel.alternatives[0]?.transcript;
+          if (transcript && transcript.trim() !== '') {
+            if (transcriptData.is_final) {
+              setTranscript((prev) => prev + ' ' + transcript);
+            }
           }
-        }
-      });
+        },
+      );
 
-      connectionRef.current.on(LiveTranscriptionEvents.Error, (error: any) => {
+      connectionRef.current.on(LiveTranscriptionEvents.Error, (error: Error) => {
         console.error('Deepgram error:', error);
       });
 
@@ -65,7 +84,7 @@ export const useRealtimeTranscription = () => {
         mimeType: 'audio/webm;codecs=opus',
       });
 
-      mediaRecorder.ondataavailable = (event) => {
+      mediaRecorder.ondataavailable = (event: BlobEvent) => {
         if (event.data.size > 0 && connectionRef.current) {
           connectionRef.current.send(event.data);
         }

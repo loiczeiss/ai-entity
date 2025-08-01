@@ -1,6 +1,5 @@
 'use client';
-;
-import {useVideo} from "@/utilities/useVideo";
+import { useVideo } from '@/utilities/useVideo';
 
 interface AicoreProps {
   isRecording?: boolean;
@@ -8,9 +7,5 @@ interface AicoreProps {
 const videoSrc = '/core-animation-videos/IntroV4.mp4';
 
 export function AiCore(props: AicoreProps) {
-  return (
-    <>
-      {useVideo({ src: videoSrc })}
-    </>
-  );
+  return <>{useVideo({ src: videoSrc })}</>;
 }

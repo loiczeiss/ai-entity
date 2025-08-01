@@ -13,7 +13,9 @@ export function ButtonCommands(props: ButtonCommandsProps) {
   const { isRecording, startRecording, stopRecording, stopAll } = props;
 
   return (
-    <div className={'fixed bottom-8 flex w-20 justify-center space-x-4 sm:w-64 sm:self-end'}>
+    <div
+      className={'fixed bottom-8 flex w-20 justify-center space-x-4 sm:w-64 sm:self-end'}
+    >
       <motion.button
         onClick={stopAll}
         className={'bg-alien-rust hover:bg-alien-dark text-ghost-white rounded-2xl p-4'}

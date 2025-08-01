@@ -2,8 +2,8 @@
 
 export function Header() {
   return (
-    <header className="fixed z-20 w-full flex justify-center">
-      <p className={'text-3xl text-ghost-white '}>Fragments of Infinity</p>
+    <header className="fixed z-20 flex w-full justify-center">
+      <p className={'text-ghost-white text-3xl'}>Fragments of Infinity</p>
     </header>
   );
 }

@@ -32,30 +32,43 @@ export async function POST(request: NextRequest) {
     console.log('Audio buffer size:', audioBuffer.length);
 
     // Transcribe with Deepgram
-    const { result, error } = await deepgram.listen.prerecorded.transcribeFile(audioBuffer, {
-      model: 'nova-2',
-      language: 'fr-FR', // Changed to French as per your original setup
-      smart_format: true,
-      punctuate: true,
-      diarize: false, // Disable for better performance
-      paragraphs: false,
-      utterances: false,
-      detect_language: true,
-      // Add these for better transcription
-      redact: false,
+    const { result, error } = await deepgram.listen.prerecorded.transcribeFile(
+      audioBuffer,
+      {
+        model: 'nova-2',
+        language: 'fr-FR', // Changed to French as per your original setup
+        smart_format: true,
+        punctuate: true,
+        diarize: false, // Disable for better performance
+        paragraphs: false,
+        utterances: false,
+        detect_language: true,
+        // Add these for better transcription
+        redact: false,
 
-      profanity_filter: false,
-    });
+        profanity_filter: false,
+      },
+    );
 
     if (error) {
       console.error('Deepgram error:', error);
-      return NextResponse.json({ error: 'Transcription failed', details: error }, { status: 500 });
+      return NextResponse.json(
+        {
+          error: 'Transcription failed',
+          details: error,
+        },
+        { status: 500 },
+      );
     }
 
     console.log('Deepgram result:', JSON.stringify(result, null, 2));
 
     // Check if we have results
-    if (!result.results || !result.results.channels || result.results.channels.length === 0) {
+    if (
+      !result.results ||
+      !result.results.channels ||
+      result.results.channels.length === 0
+    ) {
       console.warn('No channels in result');
       return NextResponse.json({
         transcript: '',
@@ -88,7 +101,9 @@ export async function POST(request: NextRequest) {
       transcript,
       confidence,
       words,
-      ...(transcript === '' && { message: 'No speech detected in audio' }),
+      ...(transcript === '' && {
+        message: 'No speech detected in audio',
+      }),
     });
   } catch (error) {
     console.error('API error:', error);

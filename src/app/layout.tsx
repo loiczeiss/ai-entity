@@ -19,6 +19,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="preload"
+          as="video"
+          href="../../public/core-animation-videos/loading.mp4"
+          type="video/mp4"
+        />
+      </head>
       <body className={`${orbitron.variable} antialiased`}>{children}</body>
     </html>
   );
