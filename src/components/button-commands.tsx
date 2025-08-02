@@ -15,7 +15,7 @@ export function ButtonCommands(props: ButtonCommandsProps) {
 const router = useRouter();
   return (
     <div
-      className={'fixed bottom-8 flex w-20 justify-center space-x-4 sm:w-64 sm:self-end'}
+      className={'fixed z-50 bottom-8 flex w-20 justify-center space-x-4 sm:w-64 sm:self-end'}
     >
       <motion.button
       onClick={() => { stopAll(); router.push('/'); }}

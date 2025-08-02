@@ -57,9 +57,9 @@ export function AiResponding(props: { response: string; isLoading?: boolean }) {
             return () => clearTimeout(hideVideoDelay);
         }
     }, [response]);
-
+const delay = 8.1
     return (
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-4 sm:justify-between">
+        <div className="flex h-full w-full flex-col items-center justify-center space-y-4 sm:justify-between overflow-y-scroll">
             {!hideVideo && (
                 <motion.div
                     className="absolute inset-0 z-0"
@@ -72,11 +72,13 @@ export function AiResponding(props: { response: string; isLoading?: boolean }) {
             )}
 
             <motion.div
-
-                className="relative z-10 flex flex-col items-center space-y-6 bg-transparent py-0"
+                initial={{ opacity: 0 }}
+                animate={{opacity: showResponse ? 1: 0 }}
+                transition={{ duration: 1, ease: 'easeInOut' }}
+                className=" z-10 flex flex-col items-center space-y-6 bg-transparent py-0"
             >
                 <div className="text-ghost-white h-[800px] flex flex-col items-center justify-center overflow-y-scroll px-4 pb-32 text-center text-xs sm:px-32 sm:text-base">
-                    {typewriterElement}
+                    {response}
                 </div>
             </motion.div>
         </div>
