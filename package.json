@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "dev:https": "tsx server.ts",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --write . --cache=false"
   },
   "dependencies": {
     "@deepgram/sdk": "^4.11.1",
@@ -67,6 +68,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.3",
     "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^4",
     "tsx": "^4.20.3",
     "tw-animate-css": "^1.3.6",
