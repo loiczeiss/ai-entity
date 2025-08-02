@@ -1,9 +1,7 @@
-import {useVideo} from "@/utilities/useVideo";
-
-;
+import { UseVideo } from '@/utilities/useVideo';
 
 export function LoadingVideo() {
-    const video = useVideo({src: '/core-animation-videos/loading.mp4'});
+  const video = UseVideo({ src: '/core-animation-videos/loading.mp4' });
 
-    return (video)
+  return video;
 }

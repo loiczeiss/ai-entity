@@ -1,9 +1,5 @@
-import { Main } from '@/components/main';
+import { IntroModal } from '@/components/intro';
 
 export default async function Home() {
-  return (
-    <>
-      <Main />
-    </>
-  );
+  return <IntroModal />;
 }

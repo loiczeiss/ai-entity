@@ -4,7 +4,7 @@ interface UseVideoProps {
   src: string;
 }
 
-export function useVideo(props: UseVideoProps) {
+export function UseVideo(props: UseVideoProps) {
   const { src } = props;
   return (
     <video

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
-import {cn} from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 interface UseTypewriterProps {
   text: string;
@@ -56,10 +56,8 @@ export const useTypewriter = (props: UseTypewriterProps) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: startTyping ? 1 : 0 }}
-      transition={{ duration: 0.5 }}
-      className={cn( className)}
+
+      className={cn(className)}
     >
       <ReactMarkdown>{displayedText}</ReactMarkdown>
     </motion.div>

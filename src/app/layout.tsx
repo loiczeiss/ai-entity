@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Orbitron } from 'next/font/google';
 import './globals.css';
 
+import { AudioProvider } from '@/hooks/useAudio/useAudioContext';
+
 const orbitron = Orbitron({
   variable: '--font-orbitron',
   subsets: ['latin'],
@@ -27,7 +29,10 @@ export default function RootLayout({
           type="video/mp4"
         />
       </head>
-      <body className={`${orbitron.variable} antialiased`}>{children}</body>
+
+      <body className={`${orbitron.variable} antialiased`}>
+        <AudioProvider>{children} </AudioProvider>
+      </body>
     </html>
   );
 }

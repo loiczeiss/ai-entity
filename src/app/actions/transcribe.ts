@@ -1,4 +1,3 @@
-
 export async function transcribe(formData: FormData) {
   const response = await fetch('/api/transcribe', {
     method: 'POST',
