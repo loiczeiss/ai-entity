@@ -1,7 +1,6 @@
-'use server';
 
 export async function transcribe(formData: FormData) {
-  const response = await fetch('../../api/transcribe', {
+  const response = await fetch('/api/transcribe', {
     method: 'POST',
     body: formData,
   });
@@ -9,5 +8,7 @@ export async function transcribe(formData: FormData) {
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-  return response;
+
+  const result = await response.json();
+  return result;
 }

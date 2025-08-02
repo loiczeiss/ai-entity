@@ -3,16 +3,18 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
+import {cn} from "@/lib/utils";
 
 interface UseTypewriterProps {
   text: string;
   speed?: number;
   startTyping: boolean;
   delay?: number; // New delay prop in milliseconds
+  className?: string; // Optional className for styling
 }
 
 export const useTypewriter = (props: UseTypewriterProps) => {
-  const { text, speed = 50, startTyping, delay = 0 } = props;
+  const { text, speed = 50, startTyping, delay = 0, className } = props;
   const [displayedText, setDisplayedText] = useState('');
   const [isDelayComplete, setIsDelayComplete] = useState(false);
 
@@ -57,6 +59,7 @@ export const useTypewriter = (props: UseTypewriterProps) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: startTyping ? 1 : 0 }}
       transition={{ duration: 0.5 }}
+      className={cn( className)}
     >
       <ReactMarkdown>{displayedText}</ReactMarkdown>
     </motion.div>

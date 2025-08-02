@@ -1,13 +1,17 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
-export function useTimeSinceRender() {
-  const [renderTime] = useState(Date.now());
+export function useTimeSinceRender(delayMs: number = 10000) {
+  const [hasElapsed, setHasElapsed] = useState(false);
 
-  const hasTimeElapsed = useCallback(() => {
-    return Date.now() - renderTime > 10000; // 10 seconds
-  }, [renderTime]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHasElapsed(true);
+    }, delayMs);
 
-  return hasTimeElapsed;
+    return () => clearTimeout(timer);
+  }, [delayMs]);
+
+  return hasElapsed;
 }

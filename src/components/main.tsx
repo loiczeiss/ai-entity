@@ -12,6 +12,7 @@ import SpaceRed from '@/assets/core-animation-images/space-red.jpg';
 import Space from '@/assets/core-animation-images/space.jpg';
 import {transcribe} from '@/app/actions/transcribe';
 import {LoadingVideo} from "@/components/loading";
+import {useTimeSinceRender} from "@/utilities/useTimeSinceRender";
 
 export type AIState = 'idle' | 'listening' | 'processing' | 'speaking';
 
@@ -38,6 +39,7 @@ export function Main() {
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const audioChunksRef = useRef<Blob[]>([]);
     const audioContextRef = useRef<AudioContext | null>(null);
+    const isRendering = useTimeSinceRender()
 
     useEffect(() => {
         const context = new AudioContext();
@@ -88,7 +90,7 @@ export function Main() {
 
             const response = await transcribe(formData);
 
-            const result: TranscriptionResult = await response.json();
+            const result: TranscriptionResult = await response
             let responseFromPerplexity: string | null = null;
             try {
                 setIsLoading(true);
@@ -197,16 +199,18 @@ export function Main() {
 
         stopAudio();
     };
+
     useEffect(() => {
         console.log(response);
     }, [response]);
+    console.log(isRendering)
     return (
         <div className="sm-gap-4 bg-pure-black grid h-screen grid-cols-1 grid-rows-5 gap-8 py-8 sm:py-0">
             <div className="col-start-1 row-span-1 row-start-1 flex items-center justify-center">
                 <Header/>
             </div>
             <div className="col-start-1 row-span-5 row-start-1 flex items-center justify-center">
-                {!isSpeaking && <AiCore isRecording={isRecording}/>}
+              {!isSpeaking && !isRendering && <AiCore isRecording={isRecording}/>}
             </div>
 
             <div className="col-start-1 row-span-2 row-start-3 flex items-center justify-center">
